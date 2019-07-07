@@ -1,0 +1,106 @@
+#define MODULES_DIRECTORY node_modules
+
+class Header
+{
+	gameType = Team;
+};
+
+
+//MISSION SETTINGS =============================================================
+respawn = 3;
+respawnDelay = 9999;
+respawnVehicleDelay = 0;
+respawnTemplates[] = {"Base"};
+respawnOnStart = -1;
+respawnDialog = 0;
+disabledAI = 0;
+allowFunctionsRecompile = 1;
+
+enableDebugConsole = 1;
+
+author = "Name für Gruppe Adler";                                               //Missionsersteller (Du)
+onLoadName = "TVT TEMPLATE";                                                    //Name der Mission
+onLoadMission = "";                                                             //Beschreibung der Mission (wird im Ladebildschirm unterhalb des Ladebildes angezeigt)
+loadScreen = "data\loadpic.paa";                                                //Ladebild
+canTakeEnemyRadios = 0;                                                         //Können Spieler feindliche Funkgeräte aufsammeln? (0/1)
+canUseScopes = 0;
+
+//Garbage Collector =========================================================================
+corpseManagerMode = 1;                                                          // Leichen aufräumen (0/1)
+corpseLimit = 30;                                                               // Schwellenwert an Leichen, ab dem die corpseRemovalMinTime benutzt wird
+corpseRemovalMinTime = 300;                                                     // Mindestdauer bevor eine Leiche gelöscht wird
+corpseRemovalMaxTime = 500;                                                     // Maximaldauer nach der eine Leiche gelöscht wird
+
+wreckManagerMode = 1;                                                           // Wracks aufräumen (0/1)
+wreckLimit = 20;                                                                // Schwellenwert an Wracks, ab dem die wreckRemovalMinTime benutzt wird
+wreckRemovalMinTime = 500;                                                      // Mindestdauer bevor ein Wrack gelöscht wird
+wreckRemovalMaxTime = 1200;
+
+//MISC =========================================================================
+class CfgFunctions {
+	#include "functions\common\cfgFunctions.hpp"
+	#include "functions\endings\cfgFunctions.hpp"
+	#include "functions\groupSettings\cfgFunctions.hpp"
+	#include "functions\missionSetup\cfgFunctions.hpp"
+
+	#include "node_modules\grad-loadout\cfgFunctions.hpp"
+    #include "node_modules\@gruppe-adler\replay\cfgFunctions.hpp"
+};
+
+class GRAD_Replay {
+    precision = 3;                                    							// precision of replay, 5 means every 5 seconds one snapshot (number)
+    trackedSides[] = {"west","east","independent"};   							// defines the sides that will be tracked (possible are "west", "east", "independant", "civilian") (array)
+    stepsPerTick = 1;                                							// defines steps played back at once (number)
+    trackedVehicles = 1;                              							// defines if empty and AI steered vehicles will be tracked (0/1)
+    trackedAI = 1;                                   							// defines if AI will be tracked (0/1)
+    sendingChunkSize = 10;                            							// higher number means replay loading is faster, but might cause instability / lags during loading
+    trackShots = 1;                                   							// defines if shots will be tracked (0/1)
+};
+
+
+//DIALOGS ======================================================================
+#include "node_modules\@gruppe-adler\replay\ui\defines.hpp"
+#include "node_modules\@gruppe-adler\replay\ui\dialog.hpp"
+
+class RscTitles {
+    #include "dialogs\preparationTime\rscTitles.hpp"
+
+    class grad_Default {
+        idd = -1;
+        fadein = 0;
+        fadeout = 0;
+        duration = 0;
+    };
+};
+
+//NOTIFICATIONS ================================================================
+class CfgNotifications
+{
+    class grad_notification1 {
+        title = "%1";
+        iconPicture = "\A3\ui_f\data\map\markers\military\warning_CA.paa";
+        description = "%2";
+        duration = 5;
+        priority = 0;
+    };
+};
+
+//GRAD LOADOUT =================================================================
+class Loadouts {
+    baseDelay = 1;
+    handleRadios = 1;
+    resetLoadout = 0;
+
+    class Faction {
+		#include "node_modules\grad-factions-tvt\loadouts.hpp"
+    };
+};
+
+//XEHs =========================================================================
+class Extended_Killed_EventHandlers {
+    class CAManBase {
+        class grad_common_unitKilled {
+            killed = "_this call grad_common_fnc_handleUnitKilled";
+        };
+    };
+};
