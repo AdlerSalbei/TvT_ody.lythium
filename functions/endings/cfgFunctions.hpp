@@ -6,8 +6,6 @@ class grad_endings {
         class presetControl {};
         class presetDestroy {};
         class presetElimination {};
-        class presetPoints {};
-        class presetPointsEnd {};
         class presetTimeout {};
         class startPreset {};
         class startWincondition {};
