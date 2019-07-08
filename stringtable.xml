@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="GRAD">
+    <Package name="trenches">
+        <Key ID="STR_grad_trenches_functions_PlaceCamouflage">
+            <English>Place camouflage</English>
+            <German>Tarnung platzieren</German>
+        </Key>
+    </Package>
+</Project>

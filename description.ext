@@ -48,11 +48,11 @@ class CfgFunctions {
 };
 
 class GRAD_Replay {
-    precision = 3;                                    							// precision of replay, 5 means every 5 seconds one snapshot (number)
+    precision = 10;                                    							// precision of replay, 5 means every 5 seconds one snapshot (number)
     trackedSides[] = {"west","east","independent"};   							// defines the sides that will be tracked (possible are "west", "east", "independant", "civilian") (array)
     stepsPerTick = 1;                                							// defines steps played back at once (number)
     trackedVehicles = 1;                              							// defines if empty and AI steered vehicles will be tracked (0/1)
-    trackedAI = 1;                                   							// defines if AI will be tracked (0/1)
+    trackedAI = 0;                                   							// defines if AI will be tracked (0/1)
     sendingChunkSize = 10;                            							// higher number means replay loading is faster, but might cause instability / lags during loading
     trackShots = 1;                                   							// defines if shots will be tracked (0/1)
 };
@@ -103,4 +103,79 @@ class Extended_Killed_EventHandlers {
             killed = "_this call grad_common_fnc_handleUnitKilled";
         };
     };
+};
+
+//CfgWinConditions =============================================================
+class CfgWinConditions {
+	class bluforEliminated {
+		preset = "ELIMINATION";
+		presetParams[] = {"WEST"};
+
+		condition = "";
+		checkInterval = 5;
+
+		winners[] = {"EAST"};
+		winText = "BLUFOR eliminated after %1 minutes.<br/>OPFOR wins!";
+		winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
+
+	class bluforEliminatedWithIndependant {
+		preset = "ELIMINATION";
+		presetParams[] = {"WEST"};
+
+		condition = "";
+		checkInterval = 5;
+
+		winners[] = {"EAST","INDEPENDENT"};
+		winText = "BLUFOR eliminated after %1 minutes.<br/>OPFOR wins!";
+		winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
+
+	class opforEliminated {
+		preset = "ELIMINATION";
+		presetParams[] = {"EAST"};
+
+		condition = "";
+		checkInterval = 5;
+
+		winners[] = {"WEST"};
+		winText = "BLUFOR eliminated after %1 minutes.<br/>OPFOR wins!";
+		winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
+
+	class opforEliminatedWithIndependant {
+		preset = "ELIMINATION";
+		presetParams[] = {"EAST"};
+
+		condition = "";
+		checkInterval = 5;
+
+		winners[] = {"WEST","INDEPENDENT"};
+		winText = "BLUFOR eliminated after %1 minutes.<br/>OPFOR wins!";
+		winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
+
+	class opforEliminatedWithIndependant {
+		preset = "ELIMINATION";
+		presetParams[] = {"EAST"};
+
+		condition = "";
+		checkInterval = 5;
+
+		winners[] = {"WEST","INDEPENDENT"};
+		winText = "BLUFOR eliminated after %1 minutes.<br/>OPFOR wins!";
+		winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
+
+	class independantDefeatedWestAndEast {
+	    preset = "";
+	    presetParams[] = {};
+
+	    condition = "false";
+	    checkInterval = 60;
+
+	    winners[] = {"WEST"};
+	    winText = "OPFOR hat innerhalb von %1 Minuten %2 Zivilisten getötet.<br/>BLUFOR gewinnt.";
+	    winTextParams[] = {"round (CBA_missionTime/60)"};
+	};
 };

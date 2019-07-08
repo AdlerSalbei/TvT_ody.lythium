@@ -25,44 +25,27 @@ if (!_isRecursion) then {
 };
 
 //PFH ==========================================================================
-private _respawningPlayersArrays = [];
-{
-    private _array = switch (_x) do {
-        case (WEST): {waitingPlayersBlu};
-        case (EAST): {waitingPlayersOpf};
-        case (INDEPENDENT): {waitingPlayersInd};
-        default {[]};
-    };
-    _respawningPlayersArrays pushBack _array;
-} forEach _sides;
-
-private _fnc_check = [
-    {
-        {(side _x) in _sides} count playableUnits == 0
-    },
-    {
-        {(side _x) in _sides} count playableUnits == 0 &&
-        {{({!isNull _x} count _x) > 0} count _respawningPlayersArrays == 0}
-    }
-] select (([missionConfigFile >> "missionsettings", "waveRespawnEnabled", 0] call BIS_fnc_returnConfigEntry) == 1);
+private _fnc_check = {
+    {(side _x) in _sides} count playableUnits == 0
+};
 
 [{
     params ["_args", "_handle"];
-    _args params ["_winName", "_sides", "_taskID", "_fnc_check", "_respawningPlayersArrays"];
+    _args params ["_winName", "_sides", "_taskID", "_fnc_check"];
 
     if (call _fnc_check) exitWith {
 
         [{
-            params ["_winName", "_sides", "_taskID", "_fnc_check", "_respawningPlayersArrays"];
+            params ["_winName", "_sides", "_taskID", "_fnc_check"];
             if (call _fnc_check) then {
 
                 [_taskID,"SUCCEEDED",true] call BIS_fnc_taskSetState;
                 [_winName] call grad_endings_fnc_endMissionServer;
             } else {
-                [_winName,_sides,true,_taskID] call grad_endings_fnc_presetElimination;
+                [_winName, _sides, true, _taskID] call grad_endings_fnc_presetElimination;
             };
-        }, [_winName, _sides, _taskID, _fnc_check, _respawningPlayersArrays], 10] call CBA_fnc_waitAndExecute;
+        }, [_winName, _sides, _taskID, _fnc_check], 10] call CBA_fnc_waitAndExecute;
 
         [_handle] call CBA_fnc_removePerFrameHandler;
     };
-}, 10, [_winName, _sides, _taskID, _fnc_check, _respawningPlayersArrays]] call CBA_fnc_addPerFrameHandler;
+}, 10, [_winName, _sides, _taskID, _fnc_check]] call CBA_fnc_addPerFrameHandler;
