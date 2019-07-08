@@ -1,6 +1,7 @@
 #include "component.hpp"
 
-params [["_winners", []]];
+[{missionNamespace getVariable ["REPLAY_FINISHED", false]},{
+    params [["_winners", []]];
 
-waitUntil {missionNamespace getVariable ["REPLAY_FINISHED", false]};
-["end1", playerSide in _winners, true, true, true] spawn BIS_fnc_endMission;
+    ["end1", playerSide in _winners, true, true, true] spawn BIS_fnc_endMission;
+}, [_this]] call CBA_fnc_waitUntilAndExecute;
